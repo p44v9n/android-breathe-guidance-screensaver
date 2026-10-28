@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Breathe</string>
+    <string name="instructions">Breathe is installed. Choose it in Settings › Display › Screen saver. You\'ll see it when your phone is landscape and plugged in.</string>
+</resources>

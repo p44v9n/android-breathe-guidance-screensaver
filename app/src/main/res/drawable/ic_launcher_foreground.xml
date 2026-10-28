@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A triangle, square and pentagon on one base, like the breath at its fullest. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M41,74 L67,74 L54,51.49 Z M41,74 L67,74 L67,48 L41,48 Z M41,74 L67,74 L75.03,49.28 L54,34 L32.97,49.28 Z"
+        android:strokeColor="@color/marigold"
+        android:strokeLineJoin="round"
+        android:strokeWidth="1.5" />
+</vector>
