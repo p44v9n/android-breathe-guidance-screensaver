@@ -1,8 +1,6 @@
 # Breathe
 
-An Android screensaver that guides your breathing, using the breathing animation from unphone.com/breathe.
-
-Plug your phone in and stand it on its side. When the screen would normally turn off, a line grows, then a triangle, square and on up to a nonagon unfold as you breathe in, and fold away as you breathe out. Each breath is a little longer than the last, from about 4 seconds in and 4 out to 6 in and 6 out after four minutes. After five minutes the screen dims and turns off.
+An Android screensaver that shows you a guided breathing animation when your phone is plugged in and rotated to a landscape orientation.
 
 ![The breathing guide mid-inhale: a triangle, square and pentagon on one base, with "breathe in" below](docs/breathe.png)
 
@@ -18,7 +16,7 @@ Needs Android 14 or later. If Developer options › Stay awake is on, the screen
 
 - Android starts the screensaver when the screen would turn off while charging. Breathe checks gravity once: on its side, it breathes; upright or flat, it steps aside and the screen turns off as usual.
 - A screensaver that ends while it's keeping the screen on wakes the phone up again. So after five minutes Breathe lets go of the screen first, and finishes once the screen timeout has passed.
-- The shapes, timing and easing are ported from the site's animation. The label is set in [Geist](https://vercel.com/font), under the SIL Open Font License (see `third_party/geist/OFL.txt`).
+- he label is set in [Geist](https://vercel.com/font).
 
 ## Build
 
