@@ -2,4 +2,6 @@
 <resources>
     <!-- unph.one's accent. -->
     <color name="marigold">#F9A918</color>
+    <!-- Marigold, dimmed for the last moments before the screen goes off. -->
+    <color name="ember">#482E00</color>
 </resources>

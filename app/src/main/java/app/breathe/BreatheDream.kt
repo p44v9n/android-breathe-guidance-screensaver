@@ -72,7 +72,7 @@ class BreatheDream : DreamService() {
         }, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
-    private companion object {
+    companion object {
         const val DURATION_MS = 5 * 60 * 1000L
     }
 }

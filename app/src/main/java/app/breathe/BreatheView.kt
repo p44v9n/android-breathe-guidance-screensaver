@@ -21,17 +21,16 @@ import kotlin.math.tan
  * Unlike the site, each breath is a little longer than the one before.
  */
 class BreatheView(context: Context) : View(context) {
-    private val ink = context.getColor(R.color.marigold)
+    private val marigold = context.getColor(R.color.marigold)
+    private val ember = context.getColor(R.color.ember)
     private val margin = 48 * resources.displayMetrics.density
 
     private val stroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = ink
         style = Paint.Style.STROKE
         strokeWidth = STROKE_WIDTH
         strokeJoin = Paint.Join.ROUND
     }
     private val label = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = ink
         typeface = resources.getFont(R.font.geist)
         textSize = FONT_SIZE
         // The site asks for italic Geist but only loads the upright, so browsers slant it.
@@ -65,6 +64,9 @@ class BreatheView(context: Context) : View(context) {
             t -= CYCLE * pace
             pace = paceAt((breathStartedAt - startedAt) / 1e9f)
         }
+        val ink = inkAt((now - startedAt) / 1e9f)
+        stroke.color = ink
+        label.color = ink
         // Everything below runs on the site's clock, stretched by this breath's pace.
         drawBreath(canvas, t / pace, LABEL_FADE / pace)
         postInvalidateOnAnimation()
@@ -106,6 +108,13 @@ class BreatheView(context: Context) : View(context) {
         drawLabel(canvas, "out", suffixX, outOpacity)
     }
 
+    /** White at first, warming to marigold, then dimming to ember as the screen is about to go off. */
+    private fun inkAt(at: Float) = when {
+        at < WARM_FROM -> Color.WHITE
+        at < DIM_FROM -> mix(Color.WHITE, marigold, easeInOutSine(ramp(at, WARM_FROM, DIM_FROM)))
+        else -> mix(marigold, ember, easeInOutSine(ramp(at, DIM_FROM, DIM_TO)))
+    }
+
     private fun drawLabel(canvas: Canvas, text: String, x: Float, opacity: Float) {
         if (opacity <= 0) return
         label.alpha = (opacity * 255).toInt()
@@ -129,6 +138,21 @@ class BreatheView(context: Context) : View(context) {
 
         /** How much longer than the site's a breath is, when it starts [at] seconds in. */
         fun paceAt(at: Float) = 1 + (SLOWEST_PACE - 1) * min(1f, at / RAMP_SECONDS)
+
+        // The ink is white for three minutes, warms to marigold by four and a half,
+        // then dims to ember over the last thirty seconds before the screen goes off.
+        const val WARM_FROM = 180f
+        const val DIM_TO = BreatheDream.DURATION_MS / 1000f
+        const val DIM_FROM = DIM_TO - 30f
+
+        fun mix(from: Int, to: Int, k: Float): Int {
+            fun channel(shift: Int): Int {
+                val a = (from shr shift) and 0xFF
+                val b = (to shr shift) and 0xFF
+                return (a + (b - a) * k).toInt() shl shift
+            }
+            return Color.BLACK or channel(16) or channel(8) or channel(0)
+        }
 
         const val MAX_SIDES = 9
         const val SIDE = 90f
